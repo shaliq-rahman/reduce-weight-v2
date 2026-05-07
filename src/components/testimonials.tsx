@@ -11,6 +11,7 @@ const testimonials = [
     name: "Ananya",
     city: "Kochi",
     weight: "−18 kg",
+    image: "/athlete_test1.png",
   },
   {
     quote:
@@ -25,6 +26,7 @@ const testimonials = [
     name: "Meera",
     city: "Kozhikode",
     weight: "−21 kg",
+    image: "/athlete_test2.png",
   },
   {
     quote:
@@ -83,9 +85,17 @@ export function Testimonials() {
               </p>
               <div className="mt-10 flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[#0B5E4F] to-[#063128] text-[#C8F074] font-serif text-xl flex items-center justify-center">
-                    {t.name[0]}
-                  </div>
+                  {t.image ? (
+                    <img
+                      src={t.image}
+                      alt={t.name}
+                      className="h-12 w-12 rounded-full object-cover border-2 border-[#0B5E4F]/20"
+                    />
+                  ) : (
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[#0B5E4F] to-[#063128] text-[#C8F074] font-serif text-xl flex items-center justify-center">
+                      {t.name[0]}
+                    </div>
+                  )}
                   <div>
                     <p className="font-medium text-[#0E120F]">{t.name}</p>
                     <p className="text-sm text-[#0E120F]/50">{t.city}, Kerala</p>

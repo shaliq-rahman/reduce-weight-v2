@@ -136,10 +136,10 @@ export function Hero() {
           >
             {/* Glass card */}
             <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-white via-white/80 to-[#C8F074]/30 backdrop-blur-xl border border-white/60 shadow-[0_30px_80px_-20px_rgba(11,94,79,0.35)] overflow-hidden">
-              <div className="absolute inset-0 grain" />
-              {/* Pen illustration */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <PenIllustration />
+              <div className="absolute inset-0 grain z-10" />
+              {/* Hero Image */}
+              <div className="absolute inset-0">
+                <img src="/athlete_hero.png" alt="Fit athlete" className="h-full w-full object-cover opacity-90 mix-blend-overlay" />
               </div>
               {/* Bottom plate */}
               <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-white to-transparent">
