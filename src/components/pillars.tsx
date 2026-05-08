@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import { StethoscopeAnim, PillCapsule, ChatBubbleAnim } from "@/components/vectors";
+import { AnimatedBeam } from "@/components/ui/animated-beam";
 
 const pillars = [
   {
@@ -25,6 +27,12 @@ const pillars = [
 ];
 
 export function Pillars() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const card1 = useRef<HTMLDivElement>(null);
+  const card2 = useRef<HTMLDivElement>(null);
+  const card3 = useRef<HTMLDivElement>(null);
+  const refs = [card1, card2, card3];
+
   return (
     <section id="program" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -59,28 +67,30 @@ export function Pillars() {
           </motion.p>
         </div>
 
-        <div className="mt-16 grid md:grid-cols-3 gap-5">
+        <div ref={containerRef} className="relative mt-16 grid md:grid-cols-3 gap-5">
           {pillars.map((p, i) => (
             <motion.div
+              ref={refs[i]}
               key={p.title}
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
               whileHover={{ y: -6 }}
-              className="group relative rounded-3xl bg-white border border-black/5 p-7 hover:border-[#0B5E4F]/30 transition-all duration-500 hover:shadow-[0_30px_60px_-20px_rgba(11,94,79,0.25)] overflow-hidden"
+              className="group relative rounded-3xl bg-white border border-black/5 p-7 hover:border-[#0B5E4F]/30 transition-all duration-500 hover:shadow-[0_30px_60px_-20px_rgba(11,94,79,0.25)] overflow-hidden z-10"
             >
-              <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-[#C8F074]/0 group-hover:bg-[#C8F074]/30 blur-2xl transition-all duration-700" />
+              <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-[#C8F074]/0 group-hover:bg-[#C8F074]/40 blur-3xl transition-all duration-700" />
 
-              <div className="relative flex items-center justify-between">
-                <div className="h-16 w-16 rounded-2xl bg-[#0B5E4F]/8 flex items-center justify-center group-hover:bg-[#0B5E4F]/12 transition-colors">
-                  <p.Vector className="h-9 w-9" />
+              <div className="relative flex items-start justify-between">
+                <div className="relative h-32 w-32 -ml-2 -mt-2 flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#0B5E4F]/[0.06] via-[#C8F074]/[0.08] to-transparent" />
+                  <p.Vector className="relative h-28 w-28" />
                 </div>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#0E120F]/40">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[#0E120F]/40 mt-2">
                   {p.tag}
                 </span>
               </div>
-              <h3 className="relative mt-8 font-serif text-3xl text-[#0E120F]">
+              <h3 className="relative mt-6 font-serif text-3xl text-[#0E120F]">
                 {p.title}
               </h3>
               <p className="relative mt-3 text-[#0E120F]/60 leading-relaxed">{p.desc}</p>
@@ -93,6 +103,33 @@ export function Pillars() {
               />
             </motion.div>
           ))}
+
+          {/* Animated Beam connectors — desktop only */}
+          <div className="hidden md:block">
+            <AnimatedBeam
+              containerRef={containerRef}
+              fromRef={card1}
+              toRef={card2}
+              curvature={-30}
+              gradientStartColor="#0B5E4F"
+              gradientStopColor="#C8F074"
+              pathColor="#0B5E4F"
+              pathOpacity={0.12}
+              duration={4}
+            />
+            <AnimatedBeam
+              containerRef={containerRef}
+              fromRef={card2}
+              toRef={card3}
+              curvature={-30}
+              gradientStartColor="#C8F074"
+              gradientStopColor="#0B5E4F"
+              pathColor="#0B5E4F"
+              pathOpacity={0.12}
+              duration={4}
+              delay={1.2}
+            />
+          </div>
         </div>
       </div>
     </section>

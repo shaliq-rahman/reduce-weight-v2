@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, useVel
 import { useRef, useState } from "react";
 import { ArrowRight, ArrowDown } from "lucide-react";
 import { StageFigure } from "@/components/figure-silhouette";
+import { SparklesText } from "@/components/ui/sparkles-text";
 
 const captions = [
   { eyebrow: "Stage 01", title: "Where you", italics: "are.", desc: "Constant hunger. Plateau weight. Tried everything." },
@@ -196,6 +197,13 @@ function KineticCaption({ stage }: { stage: number }) {
   const c = captions[stage];
   return (
     <div className="relative">
+      <SparklesText
+        className="!text-[11px] !font-medium uppercase tracking-[0.4em] text-white/70 mb-3"
+        colors={{ first: "#C8F074", second: "#FFFFFF" }}
+        sparklesCount={5}
+      >
+        Reduce · Wait
+      </SparklesText>
       <motion.div
         key={`eb-${stage}`}
         initial={{ opacity: 0, y: 8 }}
@@ -221,7 +229,8 @@ function KineticCaption({ stage }: { stage: number }) {
           initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
           animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-          className="block italic text-[#C8F074]"
+          className="block italic"
+          style={{ color: "#C8F074" }}
         >
           {c.italics}
         </motion.span>

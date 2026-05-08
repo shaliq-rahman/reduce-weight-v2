@@ -128,94 +128,324 @@ export function DNAStrand({ className = "" }: { className?: string }) {
   );
 }
 
-/* Animated pill capsule icon */
+/* 3D realistic pill capsule — multi-tone gradients, specular highlight, soft drop shadow, gentle float */
 export function PillCapsule({ className = "" }: { className?: string }) {
   return (
-    <motion.svg
-      viewBox="0 0 64 64"
+    <motion.div
       className={className}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      whileHover={{ rotate: 12 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      animate={{ y: [0, -3, 0], rotate: [0, 1.5, 0] }}
+      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      whileHover={{ rotate: 12, scale: 1.06 }}
+      style={{ transformStyle: "preserve-3d" }}
     >
-      <defs>
-        <linearGradient id="pill-l" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stopColor="#0B5E4F" />
-          <stop offset="100%" stopColor="#063128" />
-        </linearGradient>
-      </defs>
-      <g transform="rotate(-30 32 32)">
-        <rect x="14" y="22" width="36" height="20" rx="10" fill="#FAFAF7" stroke="#0B5E4F" strokeWidth="1.5" />
-        <rect x="14" y="22" width="18" height="20" rx="10" fill="url(#pill-l)" />
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
+        <defs>
+          {/* dark green half — body */}
+          <linearGradient id="pill3d-dark" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#1a8b73" />
+            <stop offset="35%" stopColor="#0B5E4F" />
+            <stop offset="100%" stopColor="#042822" />
+          </linearGradient>
+          {/* light half — body */}
+          <linearGradient id="pill3d-light" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="40%" stopColor="#F2F4EE" />
+            <stop offset="100%" stopColor="#C9CFC0" />
+          </linearGradient>
+          {/* glossy specular streak */}
+          <linearGradient id="pill3d-shine" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.85" />
+            <stop offset="80%" stopColor="#FFFFFF" stopOpacity="0" />
+          </linearGradient>
+          {/* shadow under the pill */}
+          <radialGradient id="pill3d-shadow" cx="0.5" cy="0.5">
+            <stop offset="0%" stopColor="#000000" stopOpacity="0.45" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+          </radialGradient>
+          {/* sparkle */}
+          <radialGradient id="pill3d-spark">
+            <stop offset="0%" stopColor="#C8F074" />
+            <stop offset="60%" stopColor="#C8F074" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#C8F074" stopOpacity="0" />
+          </radialGradient>
+          <filter id="pill3d-soft" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="1.4" />
+          </filter>
+        </defs>
+
+        {/* ground shadow */}
+        <ellipse cx="100" cy="170" rx="62" ry="9" fill="url(#pill3d-shadow)" />
+
+        {/* capsule body — tilted -28°, split horizontally */}
+        <g transform="rotate(-28 100 100)">
+          {/* dark half (left) */}
+          <path
+            d="M40 100 a30 30 0 0 1 30 -30 h30 v60 h-30 a30 30 0 0 1 -30 -30 z"
+            fill="url(#pill3d-dark)"
+          />
+          {/* light half (right) */}
+          <path
+            d="M100 70 h30 a30 30 0 0 1 0 60 h-30 z"
+            fill="url(#pill3d-light)"
+          />
+          {/* seam shadow */}
+          <rect x="98" y="70" width="4" height="60" fill="#000000" opacity="0.18" />
+          {/* deep top rim shadow */}
+          <path
+            d="M70 70 a30 30 0 0 0 -30 30"
+            stroke="#02201B"
+            strokeWidth="1.4"
+            strokeOpacity="0.5"
+            fill="none"
+          />
+          {/* specular highlight strips */}
+          <ellipse cx="78" cy="80" rx="22" ry="5" fill="url(#pill3d-shine)" filter="url(#pill3d-soft)" />
+          <ellipse cx="120" cy="80" rx="14" ry="3.5" fill="#FFFFFF" opacity="0.9" filter="url(#pill3d-soft)" />
+          {/* subtle rim highlight bottom-left */}
+          <path
+            d="M44 110 a30 30 0 0 0 26 20"
+            stroke="#5BCFAE"
+            strokeWidth="1.2"
+            strokeOpacity="0.6"
+            fill="none"
+          />
+        </g>
+
+        {/* floating sparkles */}
+        <motion.circle
+          cx="150"
+          cy="60"
+          r="6"
+          fill="url(#pill3d-spark)"
+          animate={{ opacity: [0, 1, 0], scale: [0.8, 1.2, 0.8] }}
+          transition={{ duration: 2.4, repeat: Infinity }}
+        />
         <motion.circle
           cx="40"
-          cy="32"
-          r="1.5"
-          fill="#C8F074"
-          animate={{ opacity: [0, 1, 0], cx: [40, 46, 40] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          cy="50"
+          r="4"
+          fill="url(#pill3d-spark)"
+          animate={{ opacity: [0, 1, 0], scale: [0.6, 1, 0.6] }}
+          transition={{ duration: 2.8, delay: 0.6, repeat: Infinity }}
         />
-      </g>
-    </motion.svg>
+        <motion.circle
+          cx="170"
+          cy="120"
+          r="3"
+          fill="url(#pill3d-spark)"
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 2, delay: 1, repeat: Infinity }}
+        />
+      </svg>
+    </motion.div>
   );
 }
 
-/* Animated stethoscope */
+/* 3D realistic stethoscope — chrome diaphragm, glossy tubing, pulsing aura */
 export function StethoscopeAnim({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M16 12 V28 a10 10 0 0 0 20 0 V12"
-        stroke="#0B5E4F"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M26 38 v8 a8 8 0 0 0 16 0 V36"
-        stroke="#0B5E4F"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <motion.circle
-        cx="46"
-        cy="34"
-        r="6"
-        fill="#0B5E4F"
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-        style={{ transformOrigin: "46px 34px" }}
-      />
-      <circle cx="16" cy="12" r="2.5" fill="#0B5E4F" />
-      <circle cx="36" cy="12" r="2.5" fill="#0B5E4F" />
-    </svg>
+    <motion.div
+      className={className}
+      animate={{ y: [0, -3, 0] }}
+      transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
+        <defs>
+          {/* tubing gradient — glossy rubber */}
+          <linearGradient id="steth-tube" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%" stopColor="#063128" />
+            <stop offset="40%" stopColor="#0B5E4F" />
+            <stop offset="60%" stopColor="#1a8b73" />
+            <stop offset="100%" stopColor="#063128" />
+          </linearGradient>
+          {/* chrome diaphragm — outer ring */}
+          <radialGradient id="steth-chrome" cx="0.35" cy="0.3">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="45%" stopColor="#C9D1C8" />
+            <stop offset="100%" stopColor="#5C6358" />
+          </radialGradient>
+          {/* dark center */}
+          <radialGradient id="steth-center" cx="0.4" cy="0.35">
+            <stop offset="0%" stopColor="#3C4339" />
+            <stop offset="100%" stopColor="#0E120F" />
+          </radialGradient>
+          {/* glow aura */}
+          <radialGradient id="steth-aura">
+            <stop offset="0%" stopColor="#C8F074" stopOpacity="0.45" />
+            <stop offset="70%" stopColor="#C8F074" stopOpacity="0" />
+          </radialGradient>
+          {/* earpiece tip */}
+          <radialGradient id="steth-tip" cx="0.35" cy="0.3">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="100%" stopColor="#5C6358" />
+          </radialGradient>
+          <filter id="steth-shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" />
+          </filter>
+        </defs>
+
+        {/* aura behind diaphragm — pulses */}
+        <motion.circle
+          cx="135"
+          cy="135"
+          r="40"
+          fill="url(#steth-aura)"
+          animate={{ scale: [1, 1.3, 1], opacity: [0.7, 0.3, 0.7] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "135px 135px" }}
+        />
+
+        {/* drop shadow */}
+        <ellipse cx="100" cy="180" rx="55" ry="6" fill="#000000" opacity="0.2" filter="url(#steth-shadow)" />
+
+        {/* tubing — Y shape */}
+        <path
+          d="M50 30 Q35 70 50 110 Q60 130 75 135"
+          stroke="url(#steth-tube)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M150 30 Q165 70 150 110 Q140 130 125 135"
+          stroke="url(#steth-tube)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          fill="none"
+        />
+        {/* tube highlight */}
+        <path
+          d="M50 30 Q36 70 50 108"
+          stroke="#5BCFAE"
+          strokeWidth="1.5"
+          strokeOpacity="0.6"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M150 30 Q164 70 150 108"
+          stroke="#5BCFAE"
+          strokeWidth="1.5"
+          strokeOpacity="0.6"
+          strokeLinecap="round"
+          fill="none"
+        />
+
+        {/* earpieces */}
+        <circle cx="50" cy="28" r="9" fill="url(#steth-tip)" />
+        <circle cx="150" cy="28" r="9" fill="url(#steth-tip)" />
+        <circle cx="48" cy="26" r="2.5" fill="#FFFFFF" opacity="0.9" />
+        <circle cx="148" cy="26" r="2.5" fill="#FFFFFF" opacity="0.9" />
+
+        {/* connector node where tubes meet */}
+        <circle cx="100" cy="130" r="5" fill="#0E120F" />
+        <circle cx="100" cy="130" r="2" fill="#5C6358" />
+
+        {/* chest piece — chrome diaphragm */}
+        <g transform="translate(135 135)">
+          {/* outer chrome ring */}
+          <circle r="32" fill="url(#steth-chrome)" />
+          {/* inner dark well */}
+          <circle r="24" fill="url(#steth-center)" />
+          {/* membrane highlight */}
+          <ellipse cx="-8" cy="-10" rx="14" ry="6" fill="#FFFFFF" opacity="0.18" />
+          {/* concentric ring detail */}
+          <circle r="22" fill="none" stroke="#FFFFFF" strokeWidth="0.5" strokeOpacity="0.3" />
+          <circle r="18" fill="none" stroke="#FFFFFF" strokeWidth="0.5" strokeOpacity="0.15" />
+          {/* center dot */}
+          <motion.circle
+            r="3"
+            fill="#C8F074"
+            animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </g>
+      </svg>
+    </motion.div>
   );
 }
 
-/* Animated chat bubble */
+/* 3D realistic chat bubble — glossy, rim-lit, animated typing dots with shadows */
 export function ChatBubbleAnim({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M10 18 a6 6 0 0 1 6-6 h32 a6 6 0 0 1 6 6 v18 a6 6 0 0 1-6 6 H28 l-10 8 v-8 h-2 a6 6 0 0 1-6-6 z"
-        fill="none"
-        stroke="#0B5E4F"
-        strokeWidth="2"
-      />
-      {[20, 32, 44].map((cx, i) => (
-        <motion.circle
-          key={cx}
-          cx={cx}
-          cy="27"
-          r="2.5"
-          fill="#0B5E4F"
-          animate={{ y: [0, -3, 0] }}
-          transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+    <motion.div
+      className={className}
+      animate={{ y: [0, -2, 0] }}
+      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
+        <defs>
+          {/* bubble body */}
+          <linearGradient id="bub-body" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="40%" stopColor="#E8F0DC" />
+            <stop offset="100%" stopColor="#A6C387" />
+          </linearGradient>
+          {/* bubble interior shadow */}
+          <radialGradient id="bub-inset" cx="0.5" cy="0.4">
+            <stop offset="60%" stopColor="#FFFFFF" stopOpacity="0" />
+            <stop offset="100%" stopColor="#0B5E4F" stopOpacity="0.18" />
+          </radialGradient>
+          {/* glossy top sheen */}
+          <linearGradient id="bub-sheen" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+          </linearGradient>
+          {/* dot 3D */}
+          <radialGradient id="bub-dot" cx="0.35" cy="0.3">
+            <stop offset="0%" stopColor="#1a8b73" />
+            <stop offset="60%" stopColor="#0B5E4F" />
+            <stop offset="100%" stopColor="#042822" />
+          </radialGradient>
+          <filter id="bub-shadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3" />
+          </filter>
+        </defs>
+
+        {/* drop shadow */}
+        <ellipse cx="100" cy="175" rx="62" ry="8" fill="#000000" opacity="0.18" filter="url(#bub-shadow)" />
+
+        {/* main bubble */}
+        <path
+          d="M40 60 a22 22 0 0 1 22 -22 h76 a22 22 0 0 1 22 22 v54 a22 22 0 0 1 -22 22 H86 l-22 22 v-22 h-2 a22 22 0 0 1 -22 -22 z"
+          fill="url(#bub-body)"
         />
-      ))}
-    </svg>
+        {/* inset shadow for depth */}
+        <path
+          d="M40 60 a22 22 0 0 1 22 -22 h76 a22 22 0 0 1 22 22 v54 a22 22 0 0 1 -22 22 H86 l-22 22 v-22 h-2 a22 22 0 0 1 -22 -22 z"
+          fill="url(#bub-inset)"
+        />
+        {/* top sheen */}
+        <path
+          d="M50 50 a14 14 0 0 1 14 -10 h72 a14 14 0 0 1 14 10 v18 a8 8 0 0 1 -8 8 H58 a8 8 0 0 1 -8 -8 z"
+          fill="url(#bub-sheen)"
+        />
+        {/* outer rim highlight */}
+        <path
+          d="M40 60 a22 22 0 0 1 22 -22 h76 a22 22 0 0 1 22 22 v54 a22 22 0 0 1 -22 22 H86 l-22 22 v-22 h-2 a22 22 0 0 1 -22 -22 z"
+          fill="none"
+          stroke="#FFFFFF"
+          strokeOpacity="0.6"
+          strokeWidth="0.8"
+        />
+
+        {/* typing dots */}
+        {[70, 100, 130].map((cx, i) => (
+          <motion.g
+            key={cx}
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 1.1, repeat: Infinity, delay: i * 0.18, ease: "easeInOut" }}
+          >
+            {/* dot shadow */}
+            <ellipse cx={cx} cy={92} rx="6" ry="1.5" fill="#000000" opacity="0.18" />
+            {/* dot ball */}
+            <circle cx={cx} cy="84" r="7" fill="url(#bub-dot)" />
+            {/* dot highlight */}
+            <circle cx={cx - 2} cy="81" r="2" fill="#FFFFFF" opacity="0.8" />
+          </motion.g>
+        ))}
+      </svg>
+    </motion.div>
   );
 }
 
