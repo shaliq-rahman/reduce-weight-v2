@@ -39,11 +39,11 @@ export function Navbar() {
       >
         <div className="mx-auto max-w-7xl px-6 flex items-center justify-between">
           <a href="#" className="flex items-center gap-1.5 group">
-            <span className="font-serif text-2xl tracking-tight text-[#0E120F]">
+            <span className={cn("font-serif text-2xl tracking-tight transition-colors", scrolled ? "text-[#0E120F]" : "text-white")}>
               Reduce
             </span>
             <span className="inline-block h-1.5 w-5 rounded-full bg-[#C8F074] group-hover:w-7 transition-all" />
-            <span className="font-serif text-2xl italic tracking-tight text-[#0B5E4F]">
+            <span className={cn("font-serif text-2xl italic tracking-tight transition-colors", scrolled ? "text-[#0B5E4F]" : "text-[#C8F074]")}>
               Wait
             </span>
           </a>
@@ -53,27 +53,38 @@ export function Navbar() {
               <a
                 key={l.href}
                 href={l.href}
-                className="text-sm text-[#0E120F]/70 hover:text-[#0E120F] transition-colors"
+                className={cn(
+                  "relative text-sm transition-colors group py-1",
+                  scrolled ? "text-[#0E120F]/70 hover:text-[#0E120F]" : "text-white/70 hover:text-white",
+                )}
               >
                 {l.label}
+                <span className="absolute bottom-0 left-0 h-px w-0 bg-[#C8F074] group-hover:w-full transition-all duration-300" />
               </a>
             ))}
           </nav>
 
           <div className="flex items-center gap-3">
-            <a
+            <motion.a
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
               href="#assessment"
               className="hidden sm:inline-flex items-center gap-2 rounded-full bg-[#0B5E4F] text-[#FAFAF7] px-5 py-2.5 text-sm font-medium hover:bg-[#0E120F] transition-colors"
             >
               Book Consultation
-            </a>
-            <button
+            </motion.a>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
               aria-label="Open menu"
               onClick={() => setOpen(true)}
-              className="md:hidden rounded-full p-2 text-[#0E120F] hover:bg-black/5"
+              className={cn(
+                "md:hidden rounded-full p-2 transition-colors",
+                scrolled ? "text-[#0E120F] hover:bg-black/5" : "text-white hover:bg-white/10",
+              )}
             >
               <Menu className="h-5 w-5" />
-            </button>
+            </motion.button>
           </div>
         </div>
       </motion.header>

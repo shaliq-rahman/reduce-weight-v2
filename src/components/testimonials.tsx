@@ -125,22 +125,28 @@ export function Testimonials() {
             ))}
           </div>
           <div className="flex gap-2">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
               onClick={() =>
                 setIndex((i) => (i - 1 + testimonials.length) % testimonials.length)
               }
               aria-label="Previous"
-              className="h-10 w-10 rounded-full border border-black/10 hover:bg-white flex items-center justify-center transition"
+              className="h-10 w-10 rounded-full border border-black/10 hover:bg-white hover:border-[#0B5E4F] flex items-center justify-center transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
               onClick={() => setIndex((i) => (i + 1) % testimonials.length)}
               aria-label="Next"
-              className="h-10 w-10 rounded-full border border-black/10 hover:bg-white flex items-center justify-center transition"
+              className="h-10 w-10 rounded-full border border-black/10 hover:bg-white hover:border-[#0B5E4F] flex items-center justify-center transition-colors"
             >
               <ArrowRight className="h-4 w-4" />
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>

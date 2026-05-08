@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight, ShieldCheck, Truck, Stethoscope } from "lucide-react";
+import { OrbitRings, ECGPulse, FloatingParticles } from "@/components/vectors";
 
 const word: Variants = {
   hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
@@ -27,11 +28,15 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="relative pt-36 md:pt-44 pb-20 md:pb-28 overflow-hidden grain"
+      className="relative pt-28 sm:pt-36 md:pt-44 pb-16 md:pb-28 overflow-hidden grain"
     >
       {/* radial gradient bg */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[700px] w-[1200px] rounded-full bg-gradient-radial from-[#C8F074]/40 via-[#C8F074]/10 to-transparent blur-3xl" />
+        <motion.div
+          animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.6, 0.4] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-0 left-1/2 -translate-x-1/2 h-[700px] w-[1200px] rounded-full bg-gradient-radial from-[#C8F074]/40 via-[#C8F074]/10 to-transparent blur-3xl"
+        />
         <div
           className="absolute inset-0 opacity-[0.04]"
           style={{
@@ -42,6 +47,7 @@ export function Hero() {
               "radial-gradient(ellipse at center, black 30%, transparent 70%)",
           }}
         />
+        <FloatingParticles count={10} />
       </div>
 
       <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-12 gap-12 items-center">
@@ -66,7 +72,7 @@ export function Hero() {
             variants={{
               visible: { transition: { staggerChildren: 0.15 } },
             }}
-            className="mt-6 font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight text-[#0E120F]"
+            className="mt-6 font-serif text-[2.75rem] sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight text-[#0E120F]"
           >
             <motion.span variants={word} className="block">
               Reduce the <span className="italic text-[#0B5E4F]">wait.</span>
@@ -93,19 +99,28 @@ export function Hero() {
             transition={{ delay: 0.7, duration: 0.7 }}
             className="mt-9 flex flex-col sm:flex-row gap-3"
           >
-            <a
+            <motion.a
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
               href="#assessment"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#0E120F] text-[#FAFAF7] px-6 py-4 text-sm font-medium hover:bg-[#0B5E4F] transition-all hover:gap-3"
+              className="group relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-full bg-[#0E120F] text-[#FAFAF7] px-6 py-4 text-sm font-medium hover:bg-[#0B5E4F] transition-colors"
             >
-              Start My Assessment
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
-            <a
+              <span className="relative z-10 inline-flex items-center gap-2">
+                Start My Assessment
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </span>
+              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full transition-transform duration-700" />
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
               href="#how"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#0E120F]/15 bg-white/60 backdrop-blur px-6 py-4 text-sm font-medium text-[#0E120F] hover:bg-white transition-all"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#0E120F]/15 bg-white/60 backdrop-blur px-6 py-4 text-sm font-medium text-[#0E120F] hover:bg-white transition-colors"
             >
               How It Works
-            </a>
+            </motion.a>
           </motion.div>
 
           <motion.div
@@ -134,15 +149,28 @@ export function Hero() {
             transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="relative aspect-[4/5] w-full max-w-md mx-auto"
           >
+            {/* Orbital rings around card */}
+            <div className="absolute -inset-8">
+              <OrbitRings />
+            </div>
+
             {/* Glass card */}
-            <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-white via-white/80 to-[#C8F074]/30 backdrop-blur-xl border border-white/60 shadow-[0_30px_80px_-20px_rgba(11,94,79,0.35)] overflow-hidden">
+            <motion.div
+              whileHover={{ scale: 1.02, rotate: -1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-white via-white/80 to-[#C8F074]/30 backdrop-blur-xl border border-white/60 shadow-[0_30px_80px_-20px_rgba(11,94,79,0.35)] overflow-hidden"
+            >
               <div className="absolute inset-0 grain z-10" />
               {/* Hero Image */}
               <div className="absolute inset-0">
                 <img src="/athlete_hero.png" alt="Fit athlete" className="h-full w-full object-cover opacity-90 mix-blend-overlay" />
               </div>
+              {/* ECG line at top */}
+              <div className="absolute top-4 left-4 right-4 z-20 opacity-70">
+                <ECGPulse className="h-8 w-full" />
+              </div>
               {/* Bottom plate */}
-              <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-white to-transparent">
+              <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-white via-white/95 to-transparent z-20">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-serif text-2xl text-[#0E120F]">
@@ -152,17 +180,22 @@ export function Hero() {
                       Pre-filled GLP-1 pen
                     </p>
                   </div>
-                  <div className="h-10 w-10 rounded-full bg-[#0B5E4F] text-white flex items-center justify-center">
+                  <motion.div
+                    animate={{ rotate: [0, 8, 0] }}
+                    transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                    className="h-10 w-10 rounded-full bg-[#0B5E4F] text-white flex items-center justify-center"
+                  >
                     <ArrowRight className="h-4 w-4" />
-                  </div>
+                  </motion.div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Floating chips */}
             <motion.div
               style={{ y: y1 }}
-              className="absolute -left-6 top-12 rounded-2xl bg-white shadow-lg px-4 py-3 border border-black/5 animate-float"
+              whileHover={{ scale: 1.05, rotate: -3 }}
+              className="absolute -left-6 top-12 rounded-2xl bg-white shadow-lg px-4 py-3 border border-black/5 animate-float cursor-default"
             >
               <p className="text-[10px] uppercase tracking-wider text-[#6B7268]">
                 Eligibility
@@ -172,7 +205,8 @@ export function Hero() {
 
             <motion.div
               style={{ y: y2 }}
-              className="absolute -right-4 top-1/3 rounded-2xl bg-[#0B5E4F] text-white shadow-xl px-4 py-3"
+              whileHover={{ scale: 1.05, rotate: 3 }}
+              className="absolute -right-4 top-1/3 rounded-2xl bg-[#0B5E4F] text-white shadow-xl px-4 py-3 cursor-default"
             >
               <p className="text-[10px] uppercase tracking-wider text-[#C8F074]">
                 Weekly
@@ -182,7 +216,8 @@ export function Hero() {
 
             <motion.div
               style={{ y: y3 }}
-              className="absolute -right-2 bottom-16 rounded-2xl bg-[#C8F074] text-[#0E120F] shadow-lg px-4 py-3"
+              whileHover={{ scale: 1.05, rotate: -2 }}
+              className="absolute -right-2 bottom-16 rounded-2xl bg-[#C8F074] text-[#0E120F] shadow-lg px-4 py-3 cursor-default"
             >
               <p className="text-[10px] uppercase tracking-wider text-[#0B5E4F]">
                 Outcome
@@ -199,42 +234,5 @@ export function Hero() {
         }
       `}</style>
     </section>
-  );
-}
-
-function PenIllustration() {
-  return (
-    <svg
-      viewBox="0 0 200 320"
-      className="h-[80%] w-auto drop-shadow-2xl"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id="pen-body" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#FAFAF7" />
-          <stop offset="100%" stopColor="#E5E7E1" />
-        </linearGradient>
-        <linearGradient id="pen-cap" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#0B5E4F" />
-          <stop offset="100%" stopColor="#063128" />
-        </linearGradient>
-      </defs>
-      {/* Cap */}
-      <rect x="70" y="20" width="60" height="90" rx="14" fill="url(#pen-cap)" />
-      <rect x="78" y="36" width="44" height="6" rx="3" fill="#C8F074" opacity="0.6" />
-      {/* Body */}
-      <rect x="70" y="110" width="60" height="170" rx="12" fill="url(#pen-body)" stroke="#E5E7E1" strokeWidth="1.5" />
-      {/* Window */}
-      <rect x="82" y="140" width="36" height="60" rx="6" fill="#0E120F" opacity="0.06" />
-      <text x="100" y="178" textAnchor="middle" fill="#0B5E4F" fontFamily="serif" fontSize="22" fontStyle="italic">0.5</text>
-      {/* Dial */}
-      <circle cx="100" cy="240" r="22" fill="#0B5E4F" />
-      <circle cx="100" cy="240" r="14" fill="#0E120F" />
-      <circle cx="100" cy="240" r="3" fill="#C8F074" />
-      {/* Needle */}
-      <rect x="96" y="280" width="8" height="22" rx="2" fill="#9CA399" />
-      <rect x="98" y="300" width="4" height="14" fill="#6B7268" />
-    </svg>
   );
 }
