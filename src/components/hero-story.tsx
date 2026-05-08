@@ -66,6 +66,9 @@ export function HeroStory() {
   /* particle intensity */
   const particleOpacity = useTransform(smooth, [0, 0.5, 1], [0.2, 0.6, 1]);
 
+  /* dark text mode kicks in once the bg gets pale (stage 3 onwards) */
+  const dark = activeStage >= 3;
+
   return (
     <section ref={ref} className="relative h-[500vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -88,16 +91,24 @@ export function HeroStory() {
         <LightStreaks opacity={particleOpacity} />
 
         {/* Progress bar — scene timeline */}
-        <div className="absolute top-24 left-1/2 -translate-x-1/2 z-30 hidden md:flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-white/60">
+        <div className={`absolute top-24 left-1/2 -translate-x-1/2 z-30 hidden md:flex items-center gap-3 text-xs uppercase tracking-[0.2em] transition-colors duration-500 ${
+          dark ? "text-[#0E120F]/60" : "text-white/60"
+        }`}>
           <span>Stage</span>
-          <span className="font-serif italic text-base text-white">
+          <span className={`font-serif italic text-base transition-colors duration-500 ${
+            dark ? "text-[#0E120F]" : "text-white"
+          }`}>
             {String(activeStage + 1).padStart(2, "0")}
           </span>
           <span>/ 05</span>
-          <div className="ml-3 h-px w-40 bg-white/15 overflow-hidden">
+          <div className={`ml-3 h-px w-40 overflow-hidden transition-colors duration-500 ${
+            dark ? "bg-[#0E120F]/15" : "bg-white/15"
+          }`}>
             <motion.div
               style={{ width: progressWidth }}
-              className="h-full bg-[#C8F074] origin-left"
+              className={`h-full origin-left transition-colors duration-500 ${
+                dark ? "bg-[#0B5E4F]" : "bg-[#C8F074]"
+              }`}
             />
           </div>
         </div>
@@ -106,7 +117,7 @@ export function HeroStory() {
         <div className="relative z-10 h-full grid lg:grid-cols-12 items-center max-w-7xl mx-auto px-6 gap-8">
           {/* Caption (left on desktop, top on mobile) */}
           <div className="lg:col-span-6 order-2 lg:order-1">
-            <KineticCaption stage={activeStage} />
+            <KineticCaption stage={activeStage} dark={dark} />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -118,7 +129,11 @@ export function HeroStory() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 href="#assessment"
-                className="group relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-full bg-[#C8F074] text-[#0E120F] px-6 py-4 text-sm font-medium"
+                className={`group relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-full px-6 py-4 text-sm font-medium transition-colors duration-500 ${
+                  dark
+                    ? "bg-[#0E120F] text-[#C8F074]"
+                    : "bg-[#C8F074] text-[#0E120F]"
+                }`}
               >
                 <span className="relative z-10 inline-flex items-center gap-2">
                   Begin Your Story
@@ -129,7 +144,11 @@ export function HeroStory() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 href="#how"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 backdrop-blur px-6 py-4 text-sm font-medium text-white hover:bg-white/10 transition-colors"
+                className={`inline-flex items-center justify-center gap-2 rounded-full border backdrop-blur px-6 py-4 text-sm font-medium transition-colors duration-500 ${
+                  dark
+                    ? "border-[#0E120F]/20 bg-white/40 text-[#0E120F] hover:bg-white/70"
+                    : "border-white/20 bg-white/5 text-white hover:bg-white/10"
+                }`}
               >
                 See How It Works
               </motion.a>
@@ -139,7 +158,9 @@ export function HeroStory() {
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-              className="mt-12 hidden lg:flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-white/50"
+              className={`mt-12 hidden lg:flex items-center gap-3 text-xs uppercase tracking-[0.25em] transition-colors duration-500 ${
+                dark ? "text-[#0E120F]/50" : "text-white/50"
+              }`}
             >
               <ArrowDown className="h-4 w-4" />
               Scroll to transform
@@ -193,13 +214,23 @@ export function HeroStory() {
   );
 }
 
-function KineticCaption({ stage }: { stage: number }) {
+function KineticCaption({ stage, dark = false }: { stage: number; dark?: boolean }) {
   const c = captions[stage];
+  /* color tokens swap when the bg goes pale */
+  const titleColor = dark ? "text-[#0E120F]" : "text-white";
+  const italicColor = dark ? "#063128" : "#C8F074";
+  const eyebrowColor = dark ? "text-[#0B5E4F]" : "text-[#C8F074]";
+  const descColor = dark ? "text-[#0E120F]/65" : "text-white/70";
+  const brandColor = dark ? "text-[#0E120F]/70" : "text-white/70";
+  const sparkleColors = dark
+    ? { first: "#0B5E4F", second: "#0E120F" }
+    : { first: "#C8F074", second: "#FFFFFF" };
+
   return (
     <div className="relative">
       <SparklesText
-        className="!text-[11px] !font-medium uppercase tracking-[0.4em] text-white/70 mb-3"
-        colors={{ first: "#C8F074", second: "#FFFFFF" }}
+        className={`!text-[11px] !font-medium uppercase tracking-[0.4em] mb-3 transition-colors duration-500 ${brandColor}`}
+        colors={sparkleColors}
         sparklesCount={5}
       >
         Reduce · Wait
@@ -209,11 +240,11 @@ function KineticCaption({ stage }: { stage: number }) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="text-xs uppercase tracking-[0.3em] text-[#C8F074]"
+        className={`text-xs uppercase tracking-[0.3em] transition-colors duration-500 ${eyebrowColor}`}
       >
         {c.eyebrow}
       </motion.div>
-      <h1 className="mt-4 font-serif text-[2.75rem] sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight text-white">
+      <h1 className={`mt-4 font-serif text-[2.75rem] sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight transition-colors duration-500 ${titleColor}`}>
         <motion.span
           key={`t-${stage}`}
           initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
@@ -229,8 +260,8 @@ function KineticCaption({ stage }: { stage: number }) {
           initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
           animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-          className="block italic"
-          style={{ color: "#C8F074" }}
+          className="block italic transition-colors duration-500"
+          style={{ color: italicColor }}
         >
           {c.italics}
         </motion.span>
@@ -240,7 +271,7 @@ function KineticCaption({ stage }: { stage: number }) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
-        className="mt-6 max-w-md text-base md:text-lg text-white/70 leading-relaxed text-balance"
+        className={`mt-6 max-w-md text-base md:text-lg leading-relaxed text-balance transition-colors duration-500 ${descColor}`}
       >
         {c.desc}
       </motion.p>
