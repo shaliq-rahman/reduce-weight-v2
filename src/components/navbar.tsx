@@ -53,27 +53,32 @@ export function Navbar() {
               <a
                 key={l.href}
                 href={l.href}
-                className="text-sm text-[#0E120F]/70 hover:text-[#0E120F] transition-colors"
+                className="relative text-sm text-[#0E120F]/70 hover:text-[#0E120F] transition-colors group py-1"
               >
                 {l.label}
+                <span className="absolute bottom-0 left-0 h-px w-0 bg-[#0B5E4F] group-hover:w-full transition-all duration-300" />
               </a>
             ))}
           </nav>
 
           <div className="flex items-center gap-3">
-            <a
+            <motion.a
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
               href="#assessment"
               className="hidden sm:inline-flex items-center gap-2 rounded-full bg-[#0B5E4F] text-[#FAFAF7] px-5 py-2.5 text-sm font-medium hover:bg-[#0E120F] transition-colors"
             >
               Book Consultation
-            </a>
-            <button
+            </motion.a>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
               aria-label="Open menu"
               onClick={() => setOpen(true)}
               className="md:hidden rounded-full p-2 text-[#0E120F] hover:bg-black/5"
             >
               <Menu className="h-5 w-5" />
-            </button>
+            </motion.button>
           </div>
         </div>
       </motion.header>

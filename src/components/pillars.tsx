@@ -1,23 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Stethoscope, Pill, MessageCircle } from "lucide-react";
+import { StethoscopeAnim, PillCapsule, ChatBubbleAnim } from "@/components/vectors";
 
 const pillars = [
   {
-    Icon: Stethoscope,
+    Vector: StethoscopeAnim,
     title: "Doctor Consultation",
     desc: "One-on-one video consult with a licensed physician to assess eligibility and personalise your dosage.",
     tag: "Step 01",
   },
   {
-    Icon: Pill,
+    Vector: PillCapsule,
     title: "Prescription Medication",
     desc: "Once-weekly GLP-1 pen, delivered cold-chain to your door anywhere in Kerala.",
     tag: "Step 02",
   },
   {
-    Icon: MessageCircle,
+    Vector: ChatBubbleAnim,
     title: "Continuous Support",
     desc: "Dedicated care coach, nutrition guidance, and dosage check-ins via WhatsApp.",
     tag: "Step 03",
@@ -67,22 +67,30 @@ export function Pillars() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="group relative rounded-3xl bg-white border border-black/5 p-7 hover:border-[#0B5E4F]/30 hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_30px_60px_-20px_rgba(11,94,79,0.25)]"
+              whileHover={{ y: -6 }}
+              className="group relative rounded-3xl bg-white border border-black/5 p-7 hover:border-[#0B5E4F]/30 transition-all duration-500 hover:shadow-[0_30px_60px_-20px_rgba(11,94,79,0.25)] overflow-hidden"
             >
-              <div className="flex items-center justify-between">
-                <div className="h-12 w-12 rounded-2xl bg-[#0B5E4F]/8 flex items-center justify-center group-hover:bg-[#0B5E4F] transition-colors">
-                  <p.Icon className="h-5 w-5 text-[#0B5E4F] group-hover:text-[#C8F074] transition-colors" />
+              <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-[#C8F074]/0 group-hover:bg-[#C8F074]/30 blur-2xl transition-all duration-700" />
+
+              <div className="relative flex items-center justify-between">
+                <div className="h-16 w-16 rounded-2xl bg-[#0B5E4F]/8 flex items-center justify-center group-hover:bg-[#0B5E4F]/12 transition-colors">
+                  <p.Vector className="h-9 w-9" />
                 </div>
                 <span className="text-[10px] uppercase tracking-[0.2em] text-[#0E120F]/40">
                   {p.tag}
                 </span>
               </div>
-              <h3 className="mt-8 font-serif text-3xl text-[#0E120F]">
+              <h3 className="relative mt-8 font-serif text-3xl text-[#0E120F]">
                 {p.title}
               </h3>
-              <p className="mt-3 text-[#0E120F]/60 leading-relaxed">{p.desc}</p>
+              <p className="relative mt-3 text-[#0E120F]/60 leading-relaxed">{p.desc}</p>
 
-              <div className="absolute inset-x-7 bottom-0 h-px bg-gradient-to-r from-transparent via-[#0B5E4F]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <motion.div
+                className="absolute inset-x-7 bottom-0 h-px bg-gradient-to-r from-transparent via-[#0B5E4F]/40 to-transparent"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                animate={{ scaleX: 0 }}
+              />
             </motion.div>
           ))}
         </div>
