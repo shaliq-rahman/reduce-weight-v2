@@ -66,8 +66,7 @@ export function FAQ() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i * 0.04 }}
               >
-                <motion.button
-                  whileTap={{ scale: 0.99 }}
+                <button
                   onClick={() => setOpen(isOpen ? null : i)}
                   className="w-full flex items-center justify-between gap-6 py-6 text-left group"
                   aria-expanded={isOpen}
@@ -75,22 +74,20 @@ export function FAQ() {
                   <span className="font-serif text-xl md:text-2xl text-[#0E120F] group-hover:text-[#0B5E4F] transition-colors">
                     {item.q}
                   </span>
-                  <motion.span
-                    animate={{
-                      rotate: isOpen ? 45 : 0,
-                      backgroundColor: isOpen ? "#0B5E4F" : "#FFFFFF",
-                      borderColor: isOpen ? "#0B5E4F" : "rgba(0,0,0,0.15)",
-                    }}
-                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                    className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border"
+                  <span
+                    className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
+                      isOpen
+                        ? "bg-[#0B5E4F] border-[#0B5E4F] rotate-45"
+                        : "border-black/15 bg-white group-hover:border-[#0B5E4F]"
+                    }`}
                   >
                     <Plus
                       className={`h-4 w-4 transition-colors ${
                         isOpen ? "text-[#C8F074]" : "text-[#0E120F]"
                       }`}
                     />
-                  </motion.span>
-                </motion.button>
+                  </span>
+                </button>
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div

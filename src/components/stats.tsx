@@ -1,18 +1,51 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { NumberTicker } from "@/components/ui/number-ticker";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
-type Stat =
-  | { kind: "ticker"; value: number; prefix?: string; suffix: string; label: string }
-  | { kind: "static"; value: string; suffix: string; label: string };
-
-const stats: Stat[] = [
-  { kind: "static", value: "15–25", suffix: "%", label: "Average body-weight reduction" },
-  { kind: "ticker", value: 3, suffix: " mo", label: "Time to peak results" },
-  { kind: "ticker", value: 94, suffix: "%", label: "Patient adherence rate" },
-  { kind: "ticker", value: 48, suffix: " hr", label: "From consult to delivery" },
+const stats = [
+  { value: "15–25", suffix: "%", label: "Average body-weight reduction" },
+  { value: "3", suffix: " mo", label: "Time to peak results" },
+  { value: "94", suffix: "%", label: "Patient adherence rate" },
+  { value: "48", suffix: " hr", label: "From consult to delivery" },
 ];
+
+function Counter({ to, suffix }: { to: string; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const [display, setDisplay] = useState(to);
+
+  useEffect(() => {
+    if (!inView) return;
+    if (to.includes("–")) {
+      setDisplay(to);
+      return;
+    }
+    const target = parseInt(to, 10);
+    if (Number.isNaN(target)) {
+      setDisplay(to);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const dur = 1400;
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setDisplay(String(Math.round(target * eased)));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to]);
+
+  return (
+    <span ref={ref}>
+      {display}
+      {suffix}
+    </span>
+  );
+}
 
 export function Stats() {
   return (
@@ -49,17 +82,7 @@ export function Stats() {
               className="border-t border-white/15 pt-6"
             >
               <p className="font-serif text-5xl md:text-7xl tracking-tight">
-                {s.kind === "ticker" ? (
-                  <>
-                    <NumberTicker value={s.value} className="font-serif text-white" />
-                    <span>{s.suffix}</span>
-                  </>
-                ) : (
-                  <span>
-                    {s.value}
-                    {s.suffix}
-                  </span>
-                )}
+                <Counter to={s.value} suffix={s.suffix} />
               </p>
               <p className="mt-3 text-sm text-white/60 leading-snug max-w-[180px]">
                 {s.label}

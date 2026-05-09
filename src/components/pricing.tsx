@@ -66,16 +66,13 @@ export function Pricing() {
                 per month · pay in 3 instalments
               </p>
 
-              <motion.a
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              <a
                 href="#"
-                className="group mt-8 inline-flex items-center justify-center gap-2 w-full rounded-full bg-[#0E120F] text-[#FAFAF7] px-6 py-4 text-sm font-medium hover:bg-[#0B5E4F] transition-colors"
+                className="group mt-8 inline-flex items-center justify-center gap-2 w-full rounded-full bg-[#0E120F] text-[#FAFAF7] px-6 py-4 text-sm font-medium hover:bg-[#0B5E4F] transition-all"
               >
                 Begin My Programme
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </motion.a>
+              </a>
               <p className="mt-4 text-xs text-[#0E120F]/45 text-center">
                 Cancel anytime · Refunds per medical eligibility
               </p>

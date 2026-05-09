@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
-import { DNAStrand } from "@/components/vectors";
 
 const oldWay = [
   "Crash diets that come back stronger",
@@ -22,9 +21,8 @@ const newWay = [
 
 export function Comparison() {
   return (
-    <section className="relative py-24 md:py-32 bg-[#FAFAF7] overflow-hidden">
-      <DNAStrand className="hidden lg:block absolute -right-10 top-20 h-[500px] w-40 opacity-60" />
-      <div className="relative mx-auto max-w-6xl px-6">
+    <section className="relative py-24 md:py-32 bg-[#FAFAF7]">
+      <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-2xl">
           <span className="text-xs uppercase tracking-[0.2em] text-[#0B5E4F]">
             Why Reduce-Wait

@@ -94,23 +94,14 @@ export function HowItWorks() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ delay: i * 0.12, duration: 0.6 }}
-                whileHover={{ y: -4 }}
-                className="relative group"
+                className="relative"
               >
-                <motion.div
-                  whileHover={{ scale: 1.08, rotate: 6 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                  className="flex items-center justify-center h-24 w-24 rounded-full bg-white border border-[#0B5E4F]/15 shadow-sm relative z-10 group-hover:shadow-[0_20px_40px_-10px_rgba(11,94,79,0.3)] group-hover:border-[#0B5E4F]/40 transition-shadow"
-                >
+                <div className="flex items-center justify-center h-24 w-24 rounded-full bg-white border border-[#0B5E4F]/15 shadow-sm relative z-10">
                   <s.Icon className="h-7 w-7 text-[#0B5E4F]" />
-                  <motion.span
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                    className="absolute -top-2 -right-2 h-7 w-7 rounded-full bg-[#0E120F] text-[#C8F074] text-[11px] font-medium flex items-center justify-center"
-                  >
+                  <span className="absolute -top-2 -right-2 h-7 w-7 rounded-full bg-[#0E120F] text-[#C8F074] text-[11px] font-medium flex items-center justify-center">
                     {s.n}
-                  </motion.span>
-                </motion.div>
+                  </span>
+                </div>
                 <h3 className="mt-6 font-serif text-2xl text-[#0E120F] leading-tight">
                   {s.title}
                 </h3>
